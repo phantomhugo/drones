@@ -1,0 +1,7 @@
+To build the docker image:
+
+docker build -t hugo/drones .
+
+To run the docker image:
+
+docker run -p 8080:8080 hugo/drones
