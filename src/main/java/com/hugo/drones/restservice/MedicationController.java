@@ -26,12 +26,16 @@ public class MedicationController {
 
     @PostMapping("/medication")
     public Medication addMedication(@RequestBody Medication med) {
+        Validator.validMedicationName(med.getName());
+        Validator.validCode(med.getCode());
         return repository.save(med);
     }
 
     @PutMapping("/medication/{name}")
     public Medication updateMedication(@RequestBody Medication med, @PathVariable String name) {
         Validator.notNull(med);
+        Validator.validMedicationName(med.getName());
+        Validator.validCode(med.getCode());
         Validator.notNull(repository.findById(med.getName()));
         return repository.save(med);
     }

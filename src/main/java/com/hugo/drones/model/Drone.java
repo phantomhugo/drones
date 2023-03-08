@@ -1,9 +1,15 @@
 package com.hugo.drones.model;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 import lombok.Data;
 
@@ -36,5 +42,20 @@ public class Drone implements Serializable {
     private int batteryPercentage;
     @Column
     private int droneState;
+
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(name = "DroneMedication",
+            joinColumns = @JoinColumn(name = "serialNumber", referencedColumnName = "serialNumber"),
+            inverseJoinColumns = @JoinColumn(name = "name",
+                    referencedColumnName = "name"))
+    private List<Medication> medication = new ArrayList<>();
+
+    public double getCurrentWeight() {
+        double result = 0;
+        for (Medication elem : medication) {
+            result += elem.getWeight();
+        }
+        return result;
+    }
 
 }
