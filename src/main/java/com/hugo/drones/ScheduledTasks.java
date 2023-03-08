@@ -27,12 +27,10 @@ public class ScheduledTasks {
 
     @Autowired
     DroneRepository droneRepository;
-    @Autowired
-    DroneController droneController;
 
-    @Scheduled(fixedRate = 5000)
+    @Scheduled(fixedRate = 1000)
     public void reportDroneState() {
-        List<Drone> drones = droneController.listDrones();
+        List<Drone> drones = droneRepository.findAll();
         log.info("Checking drones battery");
         for (Drone elem : drones) {
             if (elem.getBatteryPercentage() < 25) {
